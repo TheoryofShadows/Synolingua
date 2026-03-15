@@ -424,6 +424,14 @@ const UNITS = [
 
 const TOTAL_LESSONS = UNITS.reduce((acc, u) => acc + u.lessons.length, 0);
 
+const LANGUAGES = [
+  { id: "es", flag: "🇪🇸", name: "Spanish",  native: "Español",   available: true  },
+  { id: "fr", flag: "🇫🇷", name: "French",   native: "Français",  available: false },
+  { id: "de", flag: "🇩🇪", name: "German",   native: "Deutsch",   available: false },
+  { id: "ja", flag: "🇯🇵", name: "Japanese", native: "日本語",     available: false },
+  { id: "it", flag: "🇮🇹", name: "Italian",  native: "Italiano",  available: false },
+];
+
 function Fade({ children, id }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -447,30 +455,75 @@ function Fade({ children, id }) {
   );
 }
 
-function Home({ onPick, prog, dir, toggleDir }) {
+function Home({ onPick, prog, dir, toggleDir, targetLang, onLangChange }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 60); }, []);
+
+  const activeLang = LANGUAGES.find((l) => l.id === targetLang) || LANGUAGES[0];
 
   return (
     <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", width: "100%" }}>
       <div style={styles.card}>
-        <div style={{ textAlign: "center", marginBottom: 24 }}>
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={{ fontSize: 34, fontWeight: 800, fontFamily: "'Fraunces', serif", color: "#e8f0f8", letterSpacing: -1 }}>
             Syno<span style={{ color: "#a8d8ea" }}>Lingua</span>
           </div>
           <p style={{ color: "#5a7a8a", fontSize: 13, marginTop: 6 }}>Don't memorize — understand.</p>
-          <button aria-label={`Switch learning direction, currently ${dir === "en-es" ? "English to Spanish" : "Spanish to English"}`} onClick={toggleDir} style={{ margin: "12px auto 0", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
-            {dir === "en-es" ? "🇺🇸 English → 🇪🇸 Spanish" : "🇪🇸 Spanish → 🇺🇸 English"}
-          </button>
-          {prog.size > 0 && (
-            <div style={{ marginTop: 12 }}>
-              <div style={{ width: "100%", height: 8, background: "#1a2a3a", borderRadius: 6, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${(prog.size / TOTAL_LESSONS) * 100}%`, background: "linear-gradient(90deg, #a8d8ea, #4ade80)", borderRadius: 6, transition: "width 0.5s" }} />
-              </div>
-              <div style={{ fontSize: 11, color: "#4a6a7a", marginTop: 6 }}>{prog.size}/{TOTAL_LESSONS} lessons</div>
-            </div>
-          )}
         </div>
+
+        {/* Language picker */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: "#5a7a8a", textTransform: "uppercase", textAlign: "center", marginBottom: 10 }}>Choose a language</div>
+          <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
+            {LANGUAGES.map((lang) => {
+              const selected = lang.id === targetLang;
+              return (
+                <button
+                  key={lang.id}
+                  aria-label={`Learn ${lang.name}${lang.available ? "" : " (coming soon)"}`}
+                  aria-pressed={selected}
+                  onClick={() => onLangChange(lang.id)}
+                  style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+                    padding: "10px 12px", borderRadius: 12, minWidth: 68,
+                    background: selected ? "rgba(168,216,234,0.12)" : "rgba(168,216,234,0.03)",
+                    border: `1px solid ${selected ? "rgba(168,216,234,0.35)" : "rgba(168,216,234,0.07)"}`,
+                    cursor: "pointer", transition: "all 0.18s", position: "relative",
+                    opacity: lang.available ? 1 : 0.55,
+                  }}
+                >
+                  <span style={{ fontSize: 22 }}>{lang.flag}</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: selected ? "#a8d8ea" : "#7a8a9a", letterSpacing: 0.3 }}>{lang.name}</span>
+                  <span style={{ fontSize: 10, color: selected ? "#6aa8c0" : "#3a4a5a" }}>{lang.native}</span>
+                  {!lang.available && (
+                    <span style={{ position: "absolute", top: 4, right: 4, fontSize: 8, fontWeight: 700, letterSpacing: 0.8, background: "rgba(251,191,36,0.12)", color: "#fbbf24", padding: "1px 5px", borderRadius: 4, textTransform: "uppercase" }}>soon</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Coming-soon panel for unavailable languages */}
+        {!activeLang.available ? (
+          <div style={{ textAlign: "center", padding: "30px 16px" }}>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>{activeLang.flag}</div>
+            <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "'Fraunces', serif", color: "#e8f0f8", marginBottom: 8 }}>{activeLang.name} is coming soon</div>
+            <p style={{ fontSize: 13, color: "#5a7a8a", lineHeight: 1.7 }}>We're building the full {activeLang.name} course with the same depth as Spanish. Check back soon!</p>
+          </div>
+        ) : (
+          <>
+            <button aria-label={`Switch learning direction, currently ${dir === "en-es" ? "English to Spanish" : "Spanish to English"}`} onClick={toggleDir} style={{ margin: "0 auto 16px", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
+              {dir === "en-es" ? "🇺🇸 English → 🇪🇸 Spanish" : "🇪🇸 Spanish → 🇺🇸 English"}
+            </button>
+            {prog.size > 0 && (
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ width: "100%", height: 8, background: "#1a2a3a", borderRadius: 6, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${(prog.size / TOTAL_LESSONS) * 100}%`, background: "linear-gradient(90deg, #a8d8ea, #4ade80)", borderRadius: 6, transition: "width 0.5s" }} />
+                </div>
+                <div style={{ fontSize: 11, color: "#4a6a7a", marginTop: 6 }}>{prog.size}/{TOTAL_LESSONS} lessons</div>
+              </div>
+            )}
 
         {UNITS.map((unit, ui) => {
           const prevDone = ui === 0 || UNITS[ui - 1].lessons.every((l) => prog.has(l.id));
@@ -503,6 +556,8 @@ function Home({ onPick, prog, dir, toggleDir }) {
             </div>
           );
         })}
+          </>
+        )}
       </div>
     </div>
   );
@@ -926,6 +981,7 @@ export default function SynoLingua() {
     } catch { return new Set(); }
   });
   const [direction, setDirection] = useState("en-es");
+  const [targetLang, setTargetLang] = useState("es");
 
   useEffect(() => {
     localStorage.setItem("synolingua_progress", JSON.stringify([...progress]));
@@ -972,7 +1028,7 @@ export default function SynoLingua() {
           </div>
         )}
         <div style={{ padding: "20px 16px 80px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          {view === "home" && <Home onPick={startLesson} prog={progress} dir={direction} toggleDir={() => setDirection((d) => d === "en-es" ? "es-en" : "en-es")} />}
+          {view === "home" && <Home onPick={startLesson} prog={progress} dir={direction} toggleDir={() => setDirection((d) => d === "en-es" ? "es-en" : "en-es")} targetLang={targetLang} onLangChange={setTargetLang} />}
           {view === "lesson" && lesson && currentStep === "cluster" && <Cluster lesson={lesson} dir={direction} onNext={nextStep} />}
           {view === "lesson" && lesson && currentStep === "placement" && <Placement key={lesson.id + "pl"} lesson={lesson} dir={direction} onNext={nextStep} />}
           {view === "lesson" && lesson && currentStep === "because" && <Because key={lesson.id + "b"} lesson={lesson} dir={direction} onNext={nextStep} />}
