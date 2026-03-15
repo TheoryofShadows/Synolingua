@@ -422,6 +422,8 @@ const UNITS = [
   },
 ];
 
+const TOTAL_LESSONS = UNITS.reduce((acc, u) => acc + u.lessons.length, 0);
+
 function Fade({ children, id }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -448,7 +450,6 @@ function Fade({ children, id }) {
 function Home({ onPick, prog, dir, toggleDir }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 60); }, []);
-  const total = UNITS.reduce((acc, u) => acc + u.lessons.length, 0);
 
   return (
     <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease", width: "100%" }}>
@@ -458,15 +459,15 @@ function Home({ onPick, prog, dir, toggleDir }) {
             Syno<span style={{ color: "#a8d8ea" }}>Lingua</span>
           </div>
           <p style={{ color: "#5a7a8a", fontSize: 13, marginTop: 6 }}>Don't memorize — understand.</p>
-          <button onClick={toggleDir} style={{ margin: "12px auto 0", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
+          <button aria-label={`Switch learning direction, currently ${dir === "en-es" ? "English to Spanish" : "Spanish to English"}`} onClick={toggleDir} style={{ margin: "12px auto 0", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
             {dir === "en-es" ? "🇺🇸 English → 🇪🇸 Spanish" : "🇪🇸 Spanish → 🇺🇸 English"}
           </button>
           {prog.size > 0 && (
             <div style={{ marginTop: 12 }}>
               <div style={{ width: "100%", height: 8, background: "#1a2a3a", borderRadius: 6, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${(prog.size / total) * 100}%`, background: "linear-gradient(90deg, #a8d8ea, #4ade80)", borderRadius: 6, transition: "width 0.5s" }} />
+                <div style={{ height: "100%", width: `${(prog.size / TOTAL_LESSONS) * 100}%`, background: "linear-gradient(90deg, #a8d8ea, #4ade80)", borderRadius: 6, transition: "width 0.5s" }} />
               </div>
-              <div style={{ fontSize: 11, color: "#4a6a7a", marginTop: 6 }}>{prog.size}/{total} lessons</div>
+              <div style={{ fontSize: 11, color: "#4a6a7a", marginTop: 6 }}>{prog.size}/{TOTAL_LESSONS} lessons</div>
             </div>
           )}
         </div>
@@ -507,19 +508,27 @@ function Home({ onPick, prog, dir, toggleDir }) {
   );
 }
 
-function Cluster({ lesson, onNext }) {
+function Cluster({ lesson, dir, onNext }) {
+  const flipped = dir === "es-en";
+  const knownLabel = flipped ? "Spanish" : "English";
+  const targetLabel = flipped ? "English" : "Spanish";
+  const knownText = flipped ? lesson.es : lesson.en.join(" / ");
+  const targetText = flipped ? lesson.en.join(" / ") : lesson.es;
+  const audioText = flipped ? lesson.en.join(", ") : lesson.es.split(" / ")[0];
+  const audioLang = flipped ? "en-US" : "es-ES";
+
   return (
     <Fade id={lesson.id + "c"}>
       <div style={styles.card}>
         <div style={styles.tag}>MEANING CLUSTER</div>
-        <div style={styles.langLabel}>English</div>
-        <div style={{ textAlign: "center", fontSize: 26, fontWeight: 300, color: "#e8f0f8", fontFamily: "'Fraunces', serif", marginBottom: 4 }}>{lesson.en.join(" / ")}</div>
+        <div style={styles.langLabel}>{knownLabel}</div>
+        <div style={{ textAlign: "center", fontSize: 26, fontWeight: 300, color: "#e8f0f8", fontFamily: "'Fraunces', serif", marginBottom: 4 }}>{knownText}</div>
         <div style={{ textAlign: "center", margin: "6px 0" }}>
           <svg width="18" height="32" viewBox="0 0 18 32"><path d="M9 2L9 26M4 20L9 28L14 20" stroke="#a8d8ea" strokeWidth="2" fill="none" strokeLinecap="round" /></svg>
         </div>
-        <div style={styles.langLabel}>Spanish</div>
-        <div style={{ textAlign: "center", fontSize: 28, fontWeight: 700, color: "#a8d8ea", fontFamily: "'Fraunces', serif", marginBottom: 14 }}>{lesson.es}</div>
-        <button style={styles.audioBtn} onClick={() => speak(lesson.es.split(" / ")[0])}>
+        <div style={styles.langLabel}>{targetLabel}</div>
+        <div style={{ textAlign: "center", fontSize: 28, fontWeight: 700, color: "#a8d8ea", fontFamily: "'Fraunces', serif", marginBottom: 14 }}>{targetText}</div>
+        <button aria-label={`Listen to pronunciation: ${audioText}`} style={styles.audioBtn} onClick={() => speak(audioText, audioLang)}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 010 7.07" /></svg>
           <span style={{ marginLeft: 8, fontSize: 13, letterSpacing: 0.8 }}>{lesson.pron}</span>
         </button>
@@ -527,12 +536,12 @@ function Cluster({ lesson, onNext }) {
         <div style={{ marginTop: 14, marginBottom: 16 }}>
           {lesson.clusters.map((c, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap" }}>
-              <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{c.e}</span>
+              <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{flipped ? c.s : c.e}</span>
               <span style={{ color: "#3a4a5a", fontSize: 11 }}>→</span>
-              <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{c.s}</span>
+              <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{flipped ? c.e : c.s}</span>
               {c.g && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1, padding: "2px 7px", borderRadius: 5, textTransform: "uppercase", background: c.g === "m" ? "rgba(96,165,250,0.12)" : "rgba(244,114,182,0.12)", color: c.g === "m" ? "#60a5fa" : "#f472b6" }}>{c.g === "m" ? "m" : "f"}</span>}
               {c.t && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 5, background: "rgba(168,216,234,0.08)", color: "#a8d8ea" }}>{c.t}</span>}
-              <button onClick={() => speak(c.s)} style={{ background: "none", border: "none", fontSize: 12, cursor: "pointer", padding: 2, opacity: 0.4 }}>🔊</button>
+              <button aria-label={`Listen to ${flipped ? c.e : c.s}`} onClick={() => speak(flipped ? c.e : c.s, flipped ? "en-US" : "es-ES")} style={{ background: "none", border: "none", fontSize: 12, cursor: "pointer", padding: 2, opacity: 0.4 }}>🔊</button>
             </div>
           ))}
         </div>
@@ -542,10 +551,19 @@ function Cluster({ lesson, onNext }) {
   );
 }
 
-function Placement({ lesson, onNext }) {
+function Placement({ lesson, dir, onNext }) {
   const pl = lesson.placement;
-  const [placed, setPlaced] = useState(Array(pl.es.length).fill(null));
-  const [bank, setBank] = useState(() => shuffle([...pl.es]));
+  const flipped = dir === "es-en";
+  // Reference = the language the learner already knows (shown as static chips)
+  // Target = the language they're arranging into the correct order
+  const refWords = flipped ? pl.es : pl.en;
+  const targetWords = flipped ? pl.en : pl.es;
+  const refLabel = flipped ? "Spanish" : "English";
+  const targetLabel = flipped ? "English — tap to arrange" : "Spanish — tap to arrange";
+  const targetLang = flipped ? "en-US" : "es-ES";
+
+  const [placed, setPlaced] = useState(Array(targetWords.length).fill(null));
+  const [bank, setBank] = useState(() => shuffle([...targetWords]));
   const [correct, setCorrect] = useState(false);
 
   const tapBank = (word) => {
@@ -558,8 +576,8 @@ function Placement({ lesson, onNext }) {
     newBank.splice(idx, 1);
     setPlaced(newPlaced);
     setBank(newBank);
-    if (newPlaced.every((w, i) => w === pl.es[i])) {
-      setTimeout(() => { setCorrect(true); speak(pl.es.join(" ")); }, 300);
+    if (newPlaced.every((w, i) => w === targetWords[i])) {
+      setTimeout(() => { setCorrect(true); speak(targetWords.join(" "), targetLang); }, 300);
     }
   };
 
@@ -573,13 +591,13 @@ function Placement({ lesson, onNext }) {
     <Fade id={lesson.id + "pl"}>
       <div style={styles.card}>
         <div style={styles.tag}>PLACEMENT WEAVER</div>
-        <div style={styles.langLabel}>English</div>
+        <div style={styles.langLabel}>{refLabel}</div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-          {pl.en.map((w, i) => <span key={i} style={{ padding: "8px 14px", background: "rgba(168,216,234,0.06)", borderRadius: 10, fontSize: 15, fontWeight: 500, color: "#e8f0f8", border: "1px solid rgba(168,216,234,0.08)" }}>{w}</span>)}
+          {refWords.map((w, i) => <span key={i} style={{ padding: "8px 14px", background: "rgba(168,216,234,0.06)", borderRadius: 10, fontSize: 15, fontWeight: 500, color: "#e8f0f8", border: "1px solid rgba(168,216,234,0.08)" }}>{w}</span>)}
         </div>
-        <div style={styles.langLabel}>Spanish — tap to arrange</div>
+        <div style={styles.langLabel}>{targetLabel}</div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-          {pl.es.map((_, i) => (
+          {targetWords.map((_, i) => (
             <div key={i} onClick={() => tapSlot(i)} style={{ minWidth: 55, minHeight: 40, padding: "8px 14px", borderRadius: 10, border: `2px dashed ${placed[i] ? (correct ? "#4ade80" : "#a8d8ea") : "#3a4a5a"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 600, color: "#a8d8ea", background: placed[i] ? "rgba(168,216,234,0.08)" : "rgba(30,40,55,0.5)", cursor: placed[i] ? "pointer" : "default", transition: "all 0.2s" }}>
               {placed[i] || ""}
             </div>
@@ -588,7 +606,7 @@ function Placement({ lesson, onNext }) {
         {!correct && (
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", marginBottom: 14 }}>
             {bank.map((w, i) => (
-              <button key={i + w} onClick={() => tapBank(w)} style={{ padding: "10px 16px", background: "rgba(168,216,234,0.12)", border: "1px solid rgba(168,216,234,0.25)", borderRadius: 12, color: "#a8d8ea", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>{w}</button>
+              <button key={`${i}-${w}`} onClick={() => tapBank(w)} style={{ padding: "10px 16px", background: "rgba(168,216,234,0.12)", border: "1px solid rgba(168,216,234,0.25)", borderRadius: 12, color: "#a8d8ea", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>{w}</button>
             ))}
           </div>
         )}
@@ -901,8 +919,17 @@ export default function SynoLingua() {
   const [view, setView] = useState("home");
   const [lesson, setLesson] = useState(null);
   const [stepIdx, setStepIdx] = useState(0);
-  const [progress, setProgress] = useState(new Set());
+  const [progress, setProgress] = useState(() => {
+    try {
+      const saved = localStorage.getItem("synolingua_progress");
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch { return new Set(); }
+  });
   const [direction, setDirection] = useState("en-es");
+
+  useEffect(() => {
+    localStorage.setItem("synolingua_progress", JSON.stringify([...progress]));
+  }, [progress]);
 
   const getSteps = (les) => {
     if (!les) return [];
@@ -937,7 +964,7 @@ export default function SynoLingua() {
       <div style={{ position: "relative", zIndex: 1, maxWidth: 480, margin: "0 auto", minHeight: "100vh" }}>
         {view === "lesson" && lesson && (
           <div style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", background: "rgba(12,18,32,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(168,216,234,0.06)" }}>
-            <button style={{ background: "none", border: "none", color: "#a8d8ea", fontSize: 14, fontWeight: 600 }} onClick={() => { setView("home"); setLesson(null); }}>← Back</button>
+            <button aria-label="Back to lessons" style={{ background: "none", border: "none", color: "#a8d8ea", fontSize: 14, fontWeight: 600 }} onClick={() => { setView("home"); setLesson(null); }}>← Back</button>
             <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
               {visibleSteps.map((_, i) => <div key={i} style={{ width: i === stepIdx ? 22 : 8, height: 8, borderRadius: 4, background: i <= stepIdx ? "#a8d8ea" : "#2a3a4a", transition: "all 0.3s" }} />)}
             </div>
@@ -946,8 +973,8 @@ export default function SynoLingua() {
         )}
         <div style={{ padding: "20px 16px 80px", display: "flex", flexDirection: "column", alignItems: "center" }}>
           {view === "home" && <Home onPick={startLesson} prog={progress} dir={direction} toggleDir={() => setDirection((d) => d === "en-es" ? "es-en" : "en-es")} />}
-          {view === "lesson" && lesson && currentStep === "cluster" && <Cluster lesson={lesson} onNext={nextStep} />}
-          {view === "lesson" && lesson && currentStep === "placement" && <Placement key={lesson.id + "pl"} lesson={lesson} onNext={nextStep} />}
+          {view === "lesson" && lesson && currentStep === "cluster" && <Cluster lesson={lesson} dir={direction} onNext={nextStep} />}
+          {view === "lesson" && lesson && currentStep === "placement" && <Placement key={lesson.id + "pl"} lesson={lesson} dir={direction} onNext={nextStep} />}
           {view === "lesson" && lesson && currentStep === "because" && <Because key={lesson.id + "b"} lesson={lesson} dir={direction} onNext={nextStep} />}
           {view === "lesson" && lesson && currentStep === "formula" && <FormulaView key={lesson.id + "f"} lesson={lesson} onNext={nextStep} />}
           {view === "lesson" && lesson && currentStep === "practice" && <PracticeScreen key={lesson.id + "p"} lesson={lesson} onDone={completeLesson} />}
