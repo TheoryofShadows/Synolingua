@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 
 function speak(text, lang = "es-ES") {
   if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = lang;
-  utter.rate = 0.82;
-  window.speechSynthesis.speak(utter);
+  try {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = lang;
+    utter.rate = 0.82;
+    window.speechSynthesis.speak(utter);
+  } catch {
+    // speech synthesis unavailable or blocked
+  }
 }
 
 function shuffle(arr) {
@@ -582,22 +586,24 @@ function Cluster({ lesson, dir, onNext }) {
           <svg width="18" height="32" viewBox="0 0 18 32"><path d="M9 2L9 26M4 20L9 28L14 20" stroke="#a8d8ea" strokeWidth="2" fill="none" strokeLinecap="round" /></svg>
         </div>
         <div style={styles.langLabel}>{targetLabel}</div>
-        <div style={{ textAlign: "center", fontSize: 28, fontWeight: 700, color: "#a8d8ea", fontFamily: "'Fraunces', serif", marginBottom: 14 }}>{targetText}</div>
-        <button aria-label={`Listen to pronunciation: ${audioText}`} style={styles.audioBtn} onClick={() => speak(audioText, audioLang)}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 010 7.07" /></svg>
-          <span style={{ marginLeft: 8, fontSize: 13, letterSpacing: 0.8 }}>{lesson.pron}</span>
+        <button aria-label={`Tap to hear: ${audioText}`} onClick={() => speak(audioText, audioLang)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: "100%", background: "rgba(168,216,234,0.04)", border: "1px solid rgba(168,216,234,0.12)", borderRadius: 14, cursor: "pointer", padding: "14px 12px", marginBottom: 14 }}>
+          <span style={{ fontSize: 28, fontWeight: 700, color: "#a8d8ea", fontFamily: "'Fraunces', serif" }}>{targetText}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#5a8aa0", letterSpacing: 0.8 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 010 7.07" /></svg>
+            {lesson.pron}
+          </span>
         </button>
         {lesson.note && <p style={{ fontSize: 13, color: "#7a8a9a", textAlign: "center", lineHeight: 1.6, fontStyle: "italic" }}>💡 {lesson.note}</p>}
         <div style={{ marginTop: 14, marginBottom: 16 }}>
           {lesson.clusters.map((c, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap" }}>
+            <button key={i} aria-label={`Listen to ${flipped ? c.e : c.s}`} onClick={() => speak(flipped ? c.e : c.s, flipped ? "en-US" : "es-ES")} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap", width: "100%", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
               <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{flipped ? c.s : c.e}</span>
               <span style={{ color: "#3a4a5a", fontSize: 11 }}>→</span>
               <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{flipped ? c.e : c.s}</span>
               {c.g && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1, padding: "2px 7px", borderRadius: 5, textTransform: "uppercase", background: c.g === "m" ? "rgba(96,165,250,0.12)" : "rgba(244,114,182,0.12)", color: c.g === "m" ? "#60a5fa" : "#f472b6" }}>{c.g === "m" ? "m" : "f"}</span>}
               {c.t && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 5, background: "rgba(168,216,234,0.08)", color: "#a8d8ea" }}>{c.t}</span>}
-              <button aria-label={`Listen to ${flipped ? c.e : c.s}`} onClick={() => speak(flipped ? c.e : c.s, flipped ? "en-US" : "es-ES")} style={{ background: "none", border: "none", fontSize: 12, cursor: "pointer", padding: 2, opacity: 0.4 }}>🔊</button>
-            </div>
+              <span style={{ fontSize: 12, opacity: 0.4 }}>🔊</span>
+            </button>
           ))}
         </div>
         <button style={styles.primaryBtn} onClick={onNext}>Continue →</button>
@@ -653,9 +659,9 @@ function Placement({ lesson, dir, onNext }) {
         <div style={styles.langLabel}>{targetLabel}</div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
           {targetWords.map((_, i) => (
-            <div key={i} onClick={() => tapSlot(i)} style={{ minWidth: 55, minHeight: 40, padding: "8px 14px", borderRadius: 10, border: `2px dashed ${placed[i] ? (correct ? "#4ade80" : "#a8d8ea") : "#3a4a5a"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 600, color: "#a8d8ea", background: placed[i] ? "rgba(168,216,234,0.08)" : "rgba(30,40,55,0.5)", cursor: placed[i] ? "pointer" : "default", transition: "all 0.2s" }}>
+            <button key={i} onClick={() => tapSlot(i)} aria-label={placed[i] ? `Remove ${placed[i]} from slot ${i + 1}` : `Empty slot ${i + 1}`} disabled={!placed[i] || correct} style={{ minWidth: 55, minHeight: 40, padding: "8px 14px", borderRadius: 10, border: `2px dashed ${placed[i] ? (correct ? "#4ade80" : "#a8d8ea") : "#3a4a5a"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 600, color: "#a8d8ea", background: placed[i] ? "rgba(168,216,234,0.08)" : "rgba(30,40,55,0.5)", cursor: placed[i] && !correct ? "pointer" : "default", transition: "all 0.2s" }}>
               {placed[i] || ""}
-            </div>
+            </button>
           ))}
         </div>
         {!correct && (
@@ -984,7 +990,11 @@ export default function SynoLingua() {
   const [targetLang, setTargetLang] = useState("es");
 
   useEffect(() => {
-    localStorage.setItem("synolingua_progress", JSON.stringify([...progress]));
+    try {
+      localStorage.setItem("synolingua_progress", JSON.stringify([...progress]));
+    } catch {
+      // storage quota exceeded or unavailable
+    }
   }, [progress]);
 
   const getSteps = (les) => {
@@ -1016,7 +1026,7 @@ export default function SynoLingua() {
 
   return (
     <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #0c1220, #131d2e 40%, #0f1a28)", fontFamily: "'DM Sans', sans-serif", color: "#c8d8e8", position: "relative" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&display=swap'); * { box-sizing: border-box; margin: 0; padding: 0; } button { cursor: pointer; font-family: 'DM Sans', sans-serif; } button:active { transform: scale(0.97); }`}</style>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&display=swap'); * { box-sizing: border-box; margin: 0; padding: 0; } button { cursor: pointer; font-family: 'DM Sans', sans-serif; } button:active { transform: scale(0.97); } button:focus-visible { outline: 2px solid #a8d8ea; outline-offset: 2px; } @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }`}</style>
       <div style={{ position: "relative", zIndex: 1, maxWidth: 480, margin: "0 auto", minHeight: "100vh" }}>
         {view === "lesson" && lesson && (
           <div style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", background: "rgba(12,18,32,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(168,216,234,0.06)" }}>
