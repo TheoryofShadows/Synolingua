@@ -1,0 +1,77 @@
+{
+  "id": "and_or",
+  "title": "and / or / but",
+  "emoji": "➕",
+  "known": [
+    "and",
+    "or",
+    "but"
+  ],
+  "target": "y / o / pero",
+  "pron": "ee / oh / PEH-roh",
+  "note": "Three tiny words that unlock real thoughts.",
+  "clusters": [
+    {
+      "known": "coffee and tea",
+      "target": "café y té"
+    },
+    {
+      "known": "yes or no",
+      "target": "sí o no"
+    },
+    {
+      "known": "small but strong",
+      "target": "pequeño pero fuerte"
+    }
+  ],
+  "placement": {
+    "known": [
+      "coffee",
+      "and",
+      "tea"
+    ],
+    "target": [
+      "café",
+      "y",
+      "té"
+    ]
+  },
+  "because": {
+    "title": "Almost 1-to-1",
+    "explain": "No tricks. Plug them in same as English.",
+    "key": "Y = and. O = or. Pero = but.",
+    "fun": "Spanish hates repeated sounds — y becomes e before i-sounds, o becomes u before o-sounds!",
+    "src": "Universal logic. Combine any two ideas."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"coffee AND tea\" — which connector?",
+      "a": "y",
+      "w": [
+        "o",
+        "pero",
+        "con"
+      ],
+      "h": "y = and"
+    },
+    {
+      "type": "match",
+      "q": "Match connectors",
+      "pairs": [
+        [
+          "and",
+          "y"
+        ],
+        [
+          "or",
+          "o"
+        ],
+        [
+          "but",
+          "pero"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "id": "want_need",
+  "title": "want / need",
+  "emoji": "🎯",
+  "known": [
+    "want",
+    "need"
+  ],
+  "target": "quiero / necesito",
+  "pron": "kee-EH-roh / neh-seh-SEE-toh",
+  "note": "Ask for things. Game-changer.",
+  "clusters": [
+    {
+      "known": "I want water.",
+      "target": "Quiero agua."
+    },
+    {
+      "known": "I need help.",
+      "target": "Necesito ayuda."
+    },
+    {
+      "known": "I want to eat.",
+      "target": "Quiero comer."
+    },
+    {
+      "known": "I need to go.",
+      "target": "Necesito ir."
+    }
+  ],
+  "placement": {
+    "known": [
+      "I",
+      "want",
+      "water"
+    ],
+    "target": [
+      "Quiero",
+      "agua"
+    ]
+  },
+  "because": {
+    "title": "Survival verbs",
+    "explain": "Straight like English: I want [thing]. Drop \"yo\" — the -o ending means \"I.\"",
+    "key": "\"Quiero\" = I want. \"Necesito\" = I need. Stack verbs: \"Quiero comer.\"",
+    "fun": "\"Querer\" also means to love — \"Te quiero\" = I love you.",
+    "src": "Nail these and you survive in any Spanish-speaking country."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"I want water\" — verb?",
+      "a": "Quiero",
+      "w": [
+        "Necesito",
+        "Tengo",
+        "Estoy"
+      ],
+      "h": "want = quiero"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "I want water",
+          "Quiero agua"
+        ],
+        [
+          "I need help",
+          "Necesito ayuda"
+        ],
+        [
+          "I want to eat",
+          "Quiero comer"
+        ],
+        [
+          "I need to go",
+          "Necesito ir"
+        ]
+      ]
+    }
+  ]
+}

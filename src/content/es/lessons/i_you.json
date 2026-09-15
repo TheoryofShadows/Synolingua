@@ -1,0 +1,74 @@
+{
+  "id": "i_you",
+  "title": "I / you / he / she",
+  "emoji": "👤",
+  "known": [
+    "I",
+    "you",
+    "he",
+    "she"
+  ],
+  "target": "yo / tú / él / ella",
+  "pron": "yoh / too / ehl / EH-yah",
+  "note": "The core cast of any conversation.",
+  "clusters": [
+    {
+      "known": "I",
+      "target": "yo"
+    },
+    {
+      "known": "you (casual)",
+      "target": "tú"
+    },
+    {
+      "known": "he",
+      "target": "él"
+    },
+    {
+      "known": "she",
+      "target": "ella"
+    }
+  ],
+  "because": {
+    "title": "Here's the twist",
+    "explain": "In Spanish the verb ending tells you who — so they often skip the pronoun. \"Como\" already means \"I eat.\"",
+    "key": "They only say \"yo\" for emphasis — like \"*I* did it.\"",
+    "fun": "\"Yo quiero Taco Bell\" — that yo is extra emphasis.",
+    "src": "Called a pro-drop language. Verbs carry so much info pronouns are optional."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"I\" in Spanish…",
+      "a": "yo",
+      "w": [
+        "tú",
+        "él",
+        "ella"
+      ],
+      "h": "First person"
+    },
+    {
+      "type": "match",
+      "q": "Match pronouns",
+      "pairs": [
+        [
+          "I",
+          "yo"
+        ],
+        [
+          "you",
+          "tú"
+        ],
+        [
+          "he",
+          "él"
+        ],
+        [
+          "she",
+          "ella"
+        ]
+      ]
+    }
+  ]
+}

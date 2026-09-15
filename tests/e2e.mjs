@@ -1,6 +1,7 @@
 import { chromium } from "playwright";
 const B = process.env.BASE_URL || "http://localhost:4173";
 let fail = 0;
+let btn;
 const check = (n, c) => { console.log((c ? "PASS  " : "FAIL  ") + n); if (!c) fail++; };
 
 // CHROME_PATH lets this run against a preinstalled browser; omit it to use
@@ -9,6 +10,7 @@ const browser = await chromium.launch(
   process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {}
 );
 const page = await browser.newPage();
+btn = (name) => page.getByRole("button", { name, exact: true });
 page.on("pageerror", (e) => { console.log("PAGE ERROR: " + e.message); fail++; });
 
 // 1. Root redirects to the default language.
@@ -45,7 +47,6 @@ check("unavailable language shows coming soon", await page.getByText("French is 
 await page.evaluate(() => localStorage.removeItem("synolingua_progress"));
 await page.goto(B + "/es/lesson/the");
 await page.waitForLoadState("networkidle");
-const btn = (name) => page.getByRole("button", { name, exact: true });
 await page.getByRole("button", { name: /Continue/ }).click();          // cluster
 await btn("el").click(); await btn("niño").click();                    // placement
 await page.getByRole("button", { name: /Continue/ }).click();
@@ -66,6 +67,41 @@ try { await page.getByText("1/11 lessons").waitFor({ timeout: 5000 }); } catch {
 check("completion shows 1/11", await page.getByText("1/11 lessons").isVisible());
 const after = await page.evaluate(() => localStorage.getItem("synolingua_progress"));
 check("completion persisted under es", after === JSON.stringify({ es: ["the"] }));
+
+// 7. Badge rendering — the Phase 1 rename collapsed cluster.g (gender) and
+// cluster.t (semantic tag) into one badge field; both kinds must still show.
+await page.goto(B + "/es/lesson/the");
+await page.waitForLoadState("networkidle");
+await page.getByText("MEANING CLUSTER").waitFor({ timeout: 5000 });
+const genderBadges = await page.locator("span").filter({ hasText: /^[mf]$/ }).count();
+check("gender badges render (the)", genderBadges >= 4);
+
+await page.goto(B + "/es/lesson/is_are");
+await page.waitForLoadState("networkidle");
+await page.getByText("MEANING CLUSTER").waitFor({ timeout: 5000 });
+check("note badge 'always' renders (is_are)", await page.getByText("always", { exact: true }).first().isVisible());
+check("note badge 'now' renders (is_are)", await page.getByText("now", { exact: true }).first().isVisible());
+
+// 8. Formula step still renders after the rename (gustar is the marquee lesson).
+await page.goto(B + "/es/lesson/gustar");
+await page.waitForLoadState("networkidle");
+await page.getByText("MEANING CLUSTER").waitFor({ timeout: 5000 });
+await page.getByRole("button", { name: /Continue/ }).click();                  // cluster
+for (const w of ["Me", "gusta", "el café"]) await btn(w).click();              // placement
+await page.getByRole("button", { name: /Continue/ }).click();
+for (let i = 0; i < 2; i++) await page.getByRole("button", { name: /Continue/ }).click();
+await page.getByRole("button", { name: /Next/ }).click();                      // because -> formula
+await page.getByText("The Flip Formula").waitFor({ timeout: 5000 });
+check("flip formula renders", await page.getByText("The Flip Formula").isVisible());
+check("formula shows the reversed roles", await page.getByText("doer!", { exact: true }).isVisible());
+
+// 9. Direction toggle flips known/target labels (forward <-> reverse).
+await page.goto(B + "/es");
+await page.waitForLoadState("networkidle");
+check("default direction is English to Spanish", await page.getByText("🇺🇸 English → 🇪🇸 Spanish").isVisible());
+await page.getByRole("button", { name: /Switch learning direction/ }).click();
+await page.getByText("🇪🇸 Spanish → 🇺🇸 English").waitFor({ timeout: 5000 });
+check("toggled direction is Spanish to English", await page.getByText("🇪🇸 Spanish → 🇺🇸 English").isVisible());
 
 await browser.close();
 console.log(fail === 0 ? "\nALL PASSED" : `\n${fail} FAILED`);

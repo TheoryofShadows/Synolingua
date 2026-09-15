@@ -1,15 +1,24 @@
 import { Fade } from "../ui/Fade.jsx";
 import { styles } from "../ui/styles.js";
 import { speak } from "../lib/speech.js";
+import { resolveDirection } from "../content/languages.js";
 
-export default function Cluster({ lesson, dir, onNext }) {
-  const flipped = dir === "es-en";
-  const knownLabel = flipped ? "Spanish" : "English";
-  const targetLabel = flipped ? "English" : "Spanish";
-  const knownText = flipped ? lesson.es : lesson.en.join(" / ");
-  const targetText = flipped ? lesson.en.join(" / ") : lesson.es;
-  const audioText = flipped ? lesson.en.join(", ") : lesson.es.split(" / ")[0];
-  const audioLang = flipped ? "en-US" : "es-ES";
+// Badge colours by kind. `gender-*` came from the old cluster.g, `note` from
+// the old cluster.t; both collapsed into one badge field in Phase 1.
+const BADGE_STYLES = {
+  "gender-m": { background: "rgba(96,165,250,0.12)", color: "#60a5fa" },
+  "gender-f": { background: "rgba(244,114,182,0.12)", color: "#f472b6" },
+  note: { background: "rgba(168,216,234,0.08)", color: "#a8d8ea" },
+};
+
+export default function Cluster({ lesson, lang, dir, onNext }) {
+  const { from, to, flipped } = resolveDirection(lang, dir);
+  const knownLabel = from.name;
+  const targetLabel = to.name;
+  const knownText = flipped ? lesson.target : lesson.known.join(" / ");
+  const targetText = flipped ? lesson.known.join(" / ") : lesson.target;
+  const audioText = flipped ? lesson.known.join(", ") : lesson.target.split(" / ")[0];
+  const audioLang = to.ttsLocale;
 
   return (
     <Fade id={lesson.id + "c"}>
@@ -31,12 +40,11 @@ export default function Cluster({ lesson, dir, onNext }) {
         {lesson.note && <p style={{ fontSize: 13, color: "#7a8a9a", textAlign: "center", lineHeight: 1.6, fontStyle: "italic" }}>💡 {lesson.note}</p>}
         <div style={{ marginTop: 14, marginBottom: 16 }}>
           {lesson.clusters.map((c, i) => (
-            <button key={i} aria-label={`Listen to ${flipped ? c.e : c.s}`} onClick={() => speak(flipped ? c.e : c.s, flipped ? "en-US" : "es-ES")} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap", width: "100%", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
-              <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{flipped ? c.s : c.e}</span>
+            <button key={i} aria-label={`Listen to ${flipped ? c.known : c.target}`} onClick={() => speak(flipped ? c.known : c.target, to.ttsLocale)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap", width: "100%", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
+              <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{flipped ? c.target : c.known}</span>
               <span style={{ color: "#3a4a5a", fontSize: 11 }}>→</span>
-              <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{flipped ? c.e : c.s}</span>
-              {c.g && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1, padding: "2px 7px", borderRadius: 5, textTransform: "uppercase", background: c.g === "m" ? "rgba(96,165,250,0.12)" : "rgba(244,114,182,0.12)", color: c.g === "m" ? "#60a5fa" : "#f472b6" }}>{c.g === "m" ? "m" : "f"}</span>}
-              {c.t && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 5, background: "rgba(168,216,234,0.08)", color: "#a8d8ea" }}>{c.t}</span>}
+              <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{flipped ? c.known : c.target}</span>
+              {c.badge && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: c.badge.kind === "note" ? 0 : 1, padding: "2px 7px", borderRadius: 5, textTransform: c.badge.kind === "note" ? "none" : "uppercase", ...BADGE_STYLES[c.badge.kind] }}>{c.badge.label}</span>}
               <span style={{ fontSize: 12, opacity: 0.4 }}>🔊</span>
             </button>
           ))}

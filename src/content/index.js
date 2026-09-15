@@ -1,22 +1,30 @@
-import { UNITS as esUnits } from "./es.js";
+import { useEffect, useState } from "react";
+import { loadCourse } from "./loader.js";
 
-// Course registry. Phase 1 replaces these static imports with lazy per-language
-// JSON loading so a Spanish learner never downloads the French corpus.
-const COURSES = { es: esUnits };
+// Loads a language's course. Returns { units, total, loading }; `units` is empty
+// while loading and for languages that have no course yet.
+export function useCourse(lang) {
+  const [state, setState] = useState({ units: [], total: 0, loading: true });
 
-export function getCourse(lang) {
-  return COURSES[lang] || null;
+  useEffect(() => {
+    let cancelled = false;
+    setState({ units: [], total: 0, loading: true });
+    loadCourse(lang)
+      .then((course) => {
+        if (cancelled) return;
+        setState({ units: course?.units || [], total: course?.total || 0, loading: false });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setState({ units: [], total: 0, loading: false });
+      });
+    return () => { cancelled = true; };
+  }, [lang]);
+
+  return state;
 }
 
-export function totalLessons(lang) {
-  const units = COURSES[lang];
-  if (!units) return 0;
-  return units.reduce((acc, unit) => acc + unit.lessons.length, 0);
-}
-
-export function findLesson(lang, lessonId) {
-  const units = COURSES[lang];
-  if (!units) return null;
+export function findLesson(units, lessonId) {
   for (const unit of units) {
     const lesson = unit.lessons.find((l) => l.id === lessonId);
     if (lesson) return lesson;

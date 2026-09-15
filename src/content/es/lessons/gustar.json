@@ -1,0 +1,160 @@
+{
+  "id": "gustar",
+  "title": "like / enjoy",
+  "emoji": "☕",
+  "known": [
+    "like",
+    "enjoy"
+  ],
+  "target": "gustar",
+  "pron": "goos-TAHR",
+  "note": "This one works BACKWARDS.",
+  "clusters": [
+    {
+      "known": "I like coffee.",
+      "target": "Me gusta el café."
+    },
+    {
+      "known": "You like music.",
+      "target": "Te gusta la música."
+    },
+    {
+      "known": "She likes dancing.",
+      "target": "A ella le gusta bailar."
+    }
+  ],
+  "placement": {
+    "known": [
+      "I",
+      "like",
+      "coffee"
+    ],
+    "target": [
+      "Me",
+      "gusta",
+      "el café"
+    ]
+  },
+  "formula": {
+    "type": "flip",
+    "title": "The Flip Formula",
+    "enF": {
+      "label": "English: DOER → ACTION → THING",
+      "pieces": [
+        {
+          "t": "I",
+          "r": "doer",
+          "c": "#60a5fa"
+        },
+        {
+          "t": "like",
+          "r": "action",
+          "c": "#c4b5fd"
+        },
+        {
+          "t": "coffee",
+          "r": "thing",
+          "c": "#fbbf24"
+        }
+      ]
+    },
+    "esF": {
+      "label": "Spanish: RECEIVER → ACTION → DOER",
+      "pieces": [
+        {
+          "t": "Me",
+          "r": "receiver",
+          "c": "#f472b6"
+        },
+        {
+          "t": "gusta",
+          "r": "action",
+          "c": "#c4b5fd"
+        },
+        {
+          "t": "el café",
+          "r": "doer!",
+          "c": "#fbbf24"
+        }
+      ]
+    },
+    "rules": [
+      "English: DOER → ACTION → THING",
+      "Spanish: RECEIVER → ACTION → DOER",
+      "Coffee does the action TO you",
+      "You just receive it",
+      "Verb matches the THING: gusta (1) / gustan (many)"
+    ],
+    "examples": [
+      {
+        "e": "I like dogs",
+        "s": "Me gustan los perros",
+        "n": "plural → gustan"
+      },
+      {
+        "e": "You like music",
+        "s": "Te gusta la música",
+        "n": "te = you receiving"
+      },
+      {
+        "e": "She likes dancing",
+        "s": "Le gusta bailar",
+        "n": "le = she receiving"
+      }
+    ]
+  },
+  "because": {
+    "title": "The famous flip",
+    "explain": "\"Me gusta el café\" = Coffee does it for me. It gives you good vibes — you just receive it.",
+    "key": "Me (receiver) + gusta (does it for) + el café (the thing doing it).",
+    "fun": "This is why Spanish speakers say \"me like coffee\" in English — receiver first!",
+    "src": "From Latin \"gustare\" = to taste."
+  },
+  "becauseFlip": {
+    "title": "The English un-flip",
+    "explain": "English \"like\" is direct — I do the liking. That's why you say \"Me like\" — now say \"I like\" every time.",
+    "key": "English: I (doer) + like (action) + coffee (thing). YOU are in charge."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "Who does the action in Spanish?",
+      "a": "Coffee (does it for me)",
+      "w": [
+        "I (I do the liking)",
+        "Nobody",
+        "The barista"
+      ],
+      "h": "The THING does the action"
+    },
+    {
+      "type": "pick",
+      "q": "\"I like coffee\" →",
+      "a": "Me gusta el café",
+      "w": [
+        "Yo gusto el café",
+        "Yo gusta café",
+        "Mi gusta café"
+      ],
+      "h": "me + gusta + el café"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "I like coffee",
+          "Me gusta el café"
+        ],
+        [
+          "You like music",
+          "Te gusta la música"
+        ],
+        [
+          "She likes dancing",
+          "Le gusta bailar"
+        ]
+      ]
+    }
+  ]
+}

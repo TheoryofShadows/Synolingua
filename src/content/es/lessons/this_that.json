@@ -1,0 +1,88 @@
+{
+  "id": "this_that",
+  "title": "this / that",
+  "emoji": "👆",
+  "known": [
+    "this",
+    "that"
+  ],
+  "target": "este / ese",
+  "pron": "EHS-teh / EH-seh",
+  "note": "Point at things near and far.",
+  "clusters": [
+    {
+      "known": "this book",
+      "target": "este libro",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "this house",
+      "target": "esta casa",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    },
+    {
+      "known": "that dog",
+      "target": "ese perro",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "that girl",
+      "target": "esa niña",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    }
+  ],
+  "because": {
+    "title": "Near vs. far + bins",
+    "explain": "Close = este/esta. Far = ese/esa. Same bin system.",
+    "key": "Close + el-bin = este. Close + la-bin = esta. Far + el-bin = ese. Far + la-bin = esa.",
+    "fun": "Spanish has THREE distances: este, ese, aquel (way over there)!",
+    "src": "This + that + right bin = point at anything."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"this book\" (libro = el-bin)…",
+      "a": "este libro",
+      "w": [
+        "esta libro",
+        "ese libro",
+        "esa libro"
+      ],
+      "h": "Close + el-bin = este"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "this book",
+          "este libro"
+        ],
+        [
+          "this house",
+          "esta casa"
+        ],
+        [
+          "that dog",
+          "ese perro"
+        ],
+        [
+          "that girl",
+          "esa niña"
+        ]
+      ]
+    }
+  ]
+}

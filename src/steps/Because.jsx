@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { styles } from "../ui/styles.js";
 
 export default function Because({ lesson, dir, onNext }) {
-  const isFlipped = dir === "es-en" && lesson.becauseFlip;
+  const isFlipped = dir === "reverse" && lesson.becauseFlip;
   const bec = isFlipped ? lesson.becauseFlip : lesson.because;
   const [step, setStep] = useState(0);
   const [visible, setVisible] = useState(true);

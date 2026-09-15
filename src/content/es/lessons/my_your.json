@@ -1,0 +1,82 @@
+{
+  "id": "my_your",
+  "title": "my / your",
+  "emoji": "🏷️",
+  "known": [
+    "my",
+    "your"
+  ],
+  "target": "mi / tu",
+  "pron": "mee / too",
+  "note": "Claim your stuff.",
+  "clusters": [
+    {
+      "known": "my house",
+      "target": "mi casa"
+    },
+    {
+      "known": "your name",
+      "target": "tu nombre"
+    },
+    {
+      "known": "my dog",
+      "target": "mi perro"
+    },
+    {
+      "known": "your mom",
+      "target": "tu mamá"
+    }
+  ],
+  "placement": {
+    "known": [
+      "my",
+      "house"
+    ],
+    "target": [
+      "mi",
+      "casa"
+    ]
+  },
+  "because": {
+    "title": "Watch the accent",
+    "explain": "\"Tú\" (accent) = you. \"Tu\" (no accent) = your.",
+    "key": "\"Mi\" = my. \"Tu\" = your. No gender changes. Easy win!",
+    "fun": "\"Mi casa es tu casa\" — now you understand every word!",
+    "src": "With mi/tu + any noun you can talk about your world."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"my house\"…",
+      "a": "mi casa",
+      "w": [
+        "tu casa",
+        "mi nombre",
+        "tu mamá"
+      ],
+      "h": "my = mi"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "my house",
+          "mi casa"
+        ],
+        [
+          "your name",
+          "tu nombre"
+        ],
+        [
+          "my dog",
+          "mi perro"
+        ],
+        [
+          "your mom",
+          "tu mamá"
+        ]
+      ]
+    }
+  ]
+}

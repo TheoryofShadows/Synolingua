@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { styles } from "../ui/styles.js";
-import { LANGUAGES } from "../content/languages.js";
+import { KNOWN_LANGUAGE, LANGUAGES } from "../content/languages.js";
 
-export default function Home({ onPick, prog, dir, toggleDir, targetLang, onLangChange, units, total }) {
+export default function Home({ onPick, prog, dir, toggleDir, targetLang, onLangChange, units, total, loading }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 60); }, []);
 
@@ -60,8 +60,10 @@ export default function Home({ onPick, prog, dir, toggleDir, targetLang, onLangC
           </div>
         ) : (
           <>
-            <button aria-label={`Switch learning direction, currently ${dir === "en-es" ? "English to Spanish" : "Spanish to English"}`} onClick={toggleDir} style={{ margin: "0 auto 16px", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
-              {dir === "en-es" ? "🇺🇸 English → 🇪🇸 Spanish" : "🇪🇸 Spanish → 🇺🇸 English"}
+            <button aria-label={`Switch learning direction, currently ${dir === "forward" ? `${KNOWN_LANGUAGE.name} to ${activeLang.name}` : `${activeLang.name} to ${KNOWN_LANGUAGE.name}`}`} onClick={toggleDir} style={{ margin: "0 auto 16px", display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: "rgba(168,216,234,0.06)", border: "1px solid rgba(168,216,234,0.12)", color: "#a8d8ea", fontSize: 12, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
+              {dir === "forward"
+                ? `${KNOWN_LANGUAGE.flag} ${KNOWN_LANGUAGE.name} → ${activeLang.flag} ${activeLang.name}`
+                : `${activeLang.flag} ${activeLang.name} → ${KNOWN_LANGUAGE.flag} ${KNOWN_LANGUAGE.name}`}
             </button>
             {prog.size > 0 && (
               <div style={{ marginBottom: 20 }}>
@@ -72,6 +74,7 @@ export default function Home({ onPick, prog, dir, toggleDir, targetLang, onLangC
               </div>
             )}
 
+        {loading && <div style={{ textAlign: "center", padding: "30px 0", color: "#4a6a7a", fontSize: 13 }}>Loading lessons…</div>}
         {units.map((unit, ui) => {
           const prevDone = ui === 0 || units[ui - 1].lessons.every((l) => prog.has(l.id));
           return (
@@ -93,7 +96,7 @@ export default function Home({ onPick, prog, dir, toggleDir, targetLang, onLangC
                       <span style={{ fontSize: 18, width: 28, textAlign: "center" }}>{done ? <span style={{ color: "#4ade80" }}>✓</span> : locked ? "🔒" : lesson.emoji}</span>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 15, fontWeight: 600, color: done ? "#4ade80" : "#e8f0f8" }}>{lesson.title}</div>
-                        <div style={{ fontSize: 11, color: "#4a5a6a", marginTop: 2 }}>{lesson.en.join(", ")} → {lesson.es}</div>
+                        <div style={{ fontSize: 11, color: "#4a5a6a", marginTop: 2 }}>{lesson.known.join(", ")} → {lesson.target}</div>
                       </div>
                       {!locked && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a4a5a" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>}
                     </button>

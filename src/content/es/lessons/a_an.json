@@ -1,0 +1,98 @@
+{
+  "id": "a_an",
+  "title": "a / an",
+  "emoji": "1️⃣",
+  "known": [
+    "a",
+    "an"
+  ],
+  "target": "un / una",
+  "pron": "oon / OO-nah",
+  "note": "Same two bins — different word.",
+  "clusters": [
+    {
+      "known": "a boy",
+      "target": "un niño",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "a girl",
+      "target": "una niña",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    },
+    {
+      "known": "a cat",
+      "target": "un gato",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "a table",
+      "target": "una mesa",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    }
+  ],
+  "placement": {
+    "known": [
+      "a",
+      "cat"
+    ],
+    "target": [
+      "un",
+      "gato"
+    ]
+  },
+  "because": {
+    "title": "Same bins, new word",
+    "explain": "El-bin → \"un.\" La-bin → \"una.\" Same -o/-a cheat code.",
+    "key": "\"Un\" also means \"one\" — \"un gato\" = a cat OR one cat.",
+    "fun": "You now know FOUR words: el, la, un, una. Enough to label the world.",
+    "src": "Articles are the most common words in any language."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"a cat\"…",
+      "a": "un gato",
+      "w": [
+        "una gato",
+        "el gato",
+        "una gata"
+      ],
+      "h": "gato → -o → un"
+    },
+    {
+      "type": "match",
+      "q": "Match them",
+      "pairs": [
+        [
+          "a boy",
+          "un niño"
+        ],
+        [
+          "a girl",
+          "una niña"
+        ],
+        [
+          "a cat",
+          "un gato"
+        ],
+        [
+          "a table",
+          "una mesa"
+        ]
+      ]
+    }
+  ]
+}

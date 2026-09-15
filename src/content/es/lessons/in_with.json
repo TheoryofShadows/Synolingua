@@ -1,0 +1,85 @@
+{
+  "id": "in_with",
+  "title": "in / on / with",
+  "emoji": "📍",
+  "known": [
+    "in",
+    "on",
+    "with"
+  ],
+  "target": "en / con",
+  "pron": "ehn / kohn",
+  "note": "Where things are and who they're with.",
+  "clusters": [
+    {
+      "known": "in the house",
+      "target": "en la casa"
+    },
+    {
+      "known": "on the table",
+      "target": "en la mesa"
+    },
+    {
+      "known": "with my friend",
+      "target": "con mi amigo"
+    },
+    {
+      "known": "coffee with milk",
+      "target": "café con leche"
+    }
+  ],
+  "placement": {
+    "known": [
+      "coffee",
+      "with",
+      "milk"
+    ],
+    "target": [
+      "café",
+      "con",
+      "leche"
+    ]
+  },
+  "because": {
+    "title": "Two English words → one",
+    "explain": "Both \"in\" and \"on\" = \"en\" in Spanish.",
+    "key": "\"En\" = in AND on. \"Con\" = with.",
+    "fun": "This is why Spanish speakers mix up in/on in English!",
+    "src": "Prepositions diverge the most between languages."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"in the house\" → \"___ la casa\"",
+      "a": "en",
+      "w": [
+        "con",
+        "el",
+        "y"
+      ],
+      "h": "en = in"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "in the house",
+          "en la casa"
+        ],
+        [
+          "on the table",
+          "en la mesa"
+        ],
+        [
+          "with my friend",
+          "con mi amigo"
+        ],
+        [
+          "coffee with milk",
+          "café con leche"
+        ]
+      ]
+    }
+  ]
+}

@@ -3,17 +3,18 @@ import { Fade } from "../ui/Fade.jsx";
 import { styles } from "../ui/styles.js";
 import { speak } from "../lib/speech.js";
 import { shuffle } from "../lib/shuffle.js";
+import { resolveDirection } from "../content/languages.js";
 
-export default function Placement({ lesson, dir, onNext }) {
+export default function Placement({ lesson, lang, dir, onNext }) {
   const pl = lesson.placement;
-  const flipped = dir === "es-en";
+  const { from, to, flipped } = resolveDirection(lang, dir);
   // Reference = the language the learner already knows (shown as static chips)
   // Target = the language they're arranging into the correct order
-  const refWords = flipped ? pl.es : pl.en;
-  const targetWords = flipped ? pl.en : pl.es;
-  const refLabel = flipped ? "Spanish" : "English";
-  const targetLabel = flipped ? "English — tap to arrange" : "Spanish — tap to arrange";
-  const targetLang = flipped ? "en-US" : "es-ES";
+  const refWords = flipped ? pl.target : pl.known;
+  const targetWords = flipped ? pl.known : pl.target;
+  const refLabel = from.name;
+  const targetLabel = `${to.name} — tap to arrange`;
+  const targetLang = to.ttsLocale;
 
   const [placed, setPlaced] = useState(Array(targetWords.length).fill(null));
   const [bank, setBank] = useState(() => shuffle([...targetWords]));

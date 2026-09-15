@@ -1,0 +1,136 @@
+{
+  "id": "is_are",
+  "title": "is / are",
+  "emoji": "🪞",
+  "known": [
+    "is",
+    "are"
+  ],
+  "target": "es / está",
+  "pron": "ehs / ehs-TAH",
+  "note": "Two ways to say \"is.\"",
+  "clusters": [
+    {
+      "known": "She is tall.",
+      "target": "Ella es alta.",
+      "badge": {
+        "label": "always",
+        "kind": "note"
+      }
+    },
+    {
+      "known": "She is tired.",
+      "target": "Ella está cansada.",
+      "badge": {
+        "label": "now",
+        "kind": "note"
+      }
+    },
+    {
+      "known": "He is a doctor.",
+      "target": "Él es doctor.",
+      "badge": {
+        "label": "always",
+        "kind": "note"
+      }
+    },
+    {
+      "known": "He is sick.",
+      "target": "Él está enfermo.",
+      "badge": {
+        "label": "now",
+        "kind": "note"
+      }
+    }
+  ],
+  "placement": {
+    "known": [
+      "She",
+      "is",
+      "tall"
+    ],
+    "target": [
+      "Ella",
+      "es",
+      "alta"
+    ]
+  },
+  "formula": {
+    "type": "decision",
+    "title": "The \"is\" decision tree",
+    "question": "Always true — or just right now?",
+    "paths": [
+      {
+        "label": "Always true (identity)",
+        "result": "ES",
+        "color": "#60a5fa",
+        "examples": [
+          "She is tall → es alta",
+          "He is a doctor → es doctor"
+        ]
+      },
+      {
+        "label": "Right now (state, mood)",
+        "result": "ESTÁ",
+        "color": "#fbbf24",
+        "examples": [
+          "She is tired → está cansada",
+          "He is sick → está enfermo"
+        ]
+      }
+    ]
+  },
+  "because": {
+    "title": "The biggest mind-shift",
+    "explain": "\"Es\" = always true. \"Está\" = right now.",
+    "key": "Is this who they ARE, or how they HAPPEN TO BE? Always = es. Now = está.",
+    "fun": "\"He is dead\" uses ESTÁ — death is something that happened!",
+    "src": "Latin \"esse\" (to exist) vs \"stare\" (to stand)."
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"She is tall\" (always) →",
+      "a": "es",
+      "w": [
+        "está",
+        "son",
+        "están"
+      ],
+      "h": "Always = es"
+    },
+    {
+      "type": "pick",
+      "q": "\"He is sick\" (right now) →",
+      "a": "está",
+      "w": [
+        "es",
+        "son",
+        "están"
+      ],
+      "h": "Temporary = está"
+    },
+    {
+      "type": "match",
+      "q": "Sort: ES vs ESTÁ",
+      "pairs": [
+        [
+          "She is tall",
+          "es (always)"
+        ],
+        [
+          "She is tired",
+          "está (now)"
+        ],
+        [
+          "He is a doctor",
+          "es (always)"
+        ],
+        [
+          "He is sick",
+          "está (now)"
+        ]
+      ]
+    }
+  ]
+}

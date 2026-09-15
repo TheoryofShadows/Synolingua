@@ -1,0 +1,76 @@
+{
+  "lang": "es",
+  "units": [
+    {
+      "id": "basics",
+      "title": "The Basics",
+      "sub": "Small words, big power",
+      "emoji": "🧱",
+      "color": "#a8d8ea",
+      "lessons": [
+        {
+          "id": "the",
+          "access": "free"
+        },
+        {
+          "id": "a_an",
+          "access": "free"
+        },
+        {
+          "id": "i_you",
+          "access": "free"
+        },
+        {
+          "id": "my_your",
+          "access": "free"
+        },
+        {
+          "id": "this_that",
+          "access": "free"
+        }
+      ]
+    },
+    {
+      "id": "connectors",
+      "title": "Connectors",
+      "sub": "Glue words together",
+      "emoji": "🔗",
+      "color": "#c4b5fd",
+      "lessons": [
+        {
+          "id": "and_or",
+          "access": "paid"
+        },
+        {
+          "id": "in_with",
+          "access": "paid"
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "title": "First Actions",
+      "sub": "Now you can DO things",
+      "emoji": "⚡",
+      "color": "#fbbf24",
+      "lessons": [
+        {
+          "id": "is_are",
+          "access": "paid"
+        },
+        {
+          "id": "want_need",
+          "access": "paid"
+        },
+        {
+          "id": "gustar",
+          "access": "free"
+        },
+        {
+          "id": "tener",
+          "access": "paid"
+        }
+      ]
+    }
+  ]
+}

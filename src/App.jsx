@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
-import { getCourse, totalLessons } from "./content/index.js";
+import { useCourse } from "./content/index.js";
 import { LANGUAGES } from "./content/languages.js";
 import { doneSet, loadProgress, markDone, saveProgress } from "./lib/progress.js";
 import { styles } from "./ui/styles.js";
@@ -18,11 +18,17 @@ function HomeRoute({ progress, dir, toggleDir }) {
     return <Navigate to={`/${DEFAULT_LANG}`} replace />;
   }
 
+  return <HomeScreen lang={lang} navigate={navigate} progress={progress} dir={dir} toggleDir={toggleDir} />;
+}
+
+function HomeScreen({ lang, navigate, progress, dir, toggleDir }) {
+  const { units, total, loading } = useCourse(lang);
   return (
     <div style={styles.page}>
       <Home
-        units={getCourse(lang) || []}
-        total={totalLessons(lang)}
+        units={units}
+        total={total}
+        loading={loading}
         prog={doneSet(progress, lang)}
         targetLang={lang}
         onLangChange={(next) => navigate(`/${next}`)}
@@ -36,13 +42,13 @@ function HomeRoute({ progress, dir, toggleDir }) {
 
 export default function SynoLingua() {
   const [progress, setProgress] = useState(loadProgress);
-  const [direction, setDirection] = useState("en-es");
+  const [direction, setDirection] = useState("forward");
 
   useEffect(() => {
     saveProgress(progress);
   }, [progress]);
 
-  const toggleDir = () => setDirection((d) => (d === "en-es" ? "es-en" : "en-es"));
+  const toggleDir = () => setDirection((d) => (d === "forward" ? "reverse" : "forward"));
   const completeLesson = (lang, lessonId) =>
     setProgress((p) => markDone(p, lang, lessonId));
 

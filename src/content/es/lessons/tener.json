@@ -1,0 +1,146 @@
+{
+  "id": "tener",
+  "title": "have / carry",
+  "emoji": "✊",
+  "known": [
+    "have",
+    "carry"
+  ],
+  "target": "tener",
+  "pron": "teh-NEHR",
+  "note": "You don't BE hungry — you CARRY it.",
+  "clusters": [
+    {
+      "known": "I have a dog.",
+      "target": "Tengo un perro."
+    },
+    {
+      "known": "I'm hungry.",
+      "target": "Tengo hambre."
+    },
+    {
+      "known": "I'm 20 years old.",
+      "target": "Tengo 20 años."
+    },
+    {
+      "known": "I have to go.",
+      "target": "Tengo que ir."
+    }
+  ],
+  "placement": {
+    "known": [
+      "I",
+      "am",
+      "hungry"
+    ],
+    "target": [
+      "Tengo",
+      "hambre"
+    ]
+  },
+  "formula": {
+    "type": "flip",
+    "title": "The Carry Formula",
+    "enF": {
+      "label": "English: I + AM + adjective",
+      "pieces": [
+        {
+          "t": "I",
+          "r": "doer",
+          "c": "#60a5fa"
+        },
+        {
+          "t": "am",
+          "r": "being",
+          "c": "#c4b5fd"
+        },
+        {
+          "t": "hungry",
+          "r": "adjective",
+          "c": "#fbbf24"
+        }
+      ]
+    },
+    "esF": {
+      "label": "Spanish: I CARRY + noun",
+      "pieces": [
+        {
+          "t": "Tengo",
+          "r": "I carry",
+          "c": "#60a5fa"
+        },
+        {
+          "t": "hambre",
+          "r": "hunger",
+          "c": "#fbbf24"
+        }
+      ]
+    },
+    "rules": [
+      "English: I + AM + [description]",
+      "Spanish: I CARRY + [object]",
+      "Hungry = an OBJECT you hold",
+      "Same for: thirsty, afraid, cold, hot",
+      "Age too: Tengo 20 años = carry 20 years"
+    ],
+    "examples": [
+      {
+        "e": "I'm thirsty",
+        "s": "Tengo sed",
+        "n": "carry thirst"
+      },
+      {
+        "e": "She's 25",
+        "s": "Tiene 25 años",
+        "n": "carries 25 years"
+      },
+      {
+        "e": "We have to leave",
+        "s": "Tenemos que ir",
+        "n": "carry obligation"
+      }
+    ]
+  },
+  "because": {
+    "title": "You carry things",
+    "explain": "English: you ARE hungry. Spanish: you CARRY hunger — like holding it.",
+    "key": "\"Tengo hambre\" = carrying hunger. \"Tengo 20 años\" = carrying 20 years.",
+    "fun": "This is why Spanish speakers say \"I have hunger\" in English!",
+    "src": "Latin \"tenēre\" = to grip. Root of \"tenant\" and \"tenacious.\""
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"I'm hungry\" uses…",
+      "a": "Tengo (carry)",
+      "w": [
+        "Estoy (am)",
+        "Soy (am)",
+        "Quiero (want)"
+      ],
+      "h": "CARRY hunger"
+    },
+    {
+      "type": "match",
+      "q": "Match",
+      "pairs": [
+        [
+          "I have a dog",
+          "Tengo un perro"
+        ],
+        [
+          "I'm hungry",
+          "Tengo hambre"
+        ],
+        [
+          "I'm 20",
+          "Tengo 20 años"
+        ],
+        [
+          "I have to go",
+          "Tengo que ir"
+        ]
+      ]
+    }
+  ]
+}

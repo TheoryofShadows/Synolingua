@@ -1,0 +1,108 @@
+{
+  "id": "the",
+  "title": "the",
+  "emoji": "📌",
+  "known": [
+    "the"
+  ],
+  "target": "el / la",
+  "pron": "ehl / lah",
+  "note": "Spanish has TWO words for 'the' — and there's a real reason why.",
+  "clusters": [
+    {
+      "known": "the boy",
+      "target": "el niño",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "the girl",
+      "target": "la niña",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    },
+    {
+      "known": "the coffee",
+      "target": "el café",
+      "badge": {
+        "label": "m",
+        "kind": "gender-m"
+      }
+    },
+    {
+      "known": "the music",
+      "target": "la música",
+      "badge": {
+        "label": "f",
+        "kind": "gender-f"
+      }
+    }
+  ],
+  "placement": {
+    "known": [
+      "the",
+      "boy"
+    ],
+    "target": [
+      "el",
+      "niño"
+    ]
+  },
+  "because": {
+    "title": "Why two words for \"the\"?",
+    "explain": "Thousands of years ago, Latin sorted ALL nouns into two bins — like color-coded teams. They called them \"masculine\" and \"feminine\" but it has nothing to do with boy/girl. Think electrical plugs: Type A and Type B. The name is just a label.",
+    "key": "Cheat code: words ending in -o go in the \"el\" bin. Words ending in -a go in the \"la\" bin.",
+    "fun": "German has THREE bins. English used to have them too but dropped them 800 years ago!",
+    "src": "The real term is \"grammatical gender.\" Linguists call it \"noun class.\""
+  },
+  "practice": [
+    {
+      "type": "pick",
+      "q": "\"the boy\" in Spanish…",
+      "a": "el niño",
+      "w": [
+        "la niño",
+        "el niña",
+        "la niña"
+      ],
+      "h": "niño ends in -o → el"
+    },
+    {
+      "type": "pick",
+      "q": "\"the music\" — el or la?",
+      "a": "la música",
+      "w": [
+        "el música",
+        "un música",
+        "el musica"
+      ],
+      "h": "música ends in -a → la"
+    },
+    {
+      "type": "match",
+      "q": "Match each phrase",
+      "pairs": [
+        [
+          "the boy",
+          "el niño"
+        ],
+        [
+          "the girl",
+          "la niña"
+        ],
+        [
+          "the coffee",
+          "el café"
+        ],
+        [
+          "the music",
+          "la música"
+        ]
+      ]
+    }
+  ]
+}
