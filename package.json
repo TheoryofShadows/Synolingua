@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node tests/progress.test.mjs",
+    "test": "node tests/progress.test.mjs && node tests/speech.test.mjs",
     "test:e2e": "node tests/e2e.mjs"
   },
   "dependencies": {

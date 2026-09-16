@@ -103,6 +103,29 @@ await page.getByRole("button", { name: /Switch learning direction/ }).click();
 await page.getByText("🇪🇸 Spanish → 🇺🇸 English").waitFor({ timeout: 5000 });
 check("toggled direction is Spanish to English", await page.getByText("🇪🇸 Spanish → 🇺🇸 English").isVisible());
 
+// 10. Phase 1.5 content corrections reach the screen, not just the JSON.
+await page.goto(B + "/es/lesson/the");
+await page.waitForLoadState("networkidle");
+await page.getByRole("button", { name: /Continue/ }).click();        // cluster
+for (const w of ["el", "niño"]) await btn(w).click();                // placement
+await page.getByRole("button", { name: /Continue/ }).click();
+await page.getByText(/THREE bins/).waitFor({ timeout: 5000 });
+check("the: Latin's three genders on screen 1", await page.getByText(/THREE bins/).isVisible());
+check("the: no longer claims two bins", !(await page.getByText(/into two bins/).isVisible().catch(() => false)));
+await page.getByRole("button", { name: /Continue/ }).click();        // -> key + fun
+check("the: cheat code states its scope", await page.getByText(/the rule simply doesn't decide/).isVisible());
+check("the: Viking fact replaced the round number", await page.getByText(/Vikings are part of the story/).isVisible());
+
+await page.goto(B + "/es/lesson/is_are");
+await page.waitForLoadState("networkidle");
+await page.getByRole("button", { name: /Continue/ }).click();        // cluster
+for (const w of ["Ella", "es", "alta"]) await btn(w).click();        // placement
+await page.getByRole("button", { name: /Continue/ }).click();
+for (let i = 0; i < 2; i++) await page.getByRole("button", { name: /Continue/ }).click();
+await page.getByText(/sedēre/).waitFor({ timeout: 5000 });
+check("is_are: sedēre now explains the ser/estar split", await page.getByText(/sedēre/).isVisible());
+check("is_are: over-simplification caveat present", await page.getByText(/La fiesta es en mi casa/).isVisible());
+
 await browser.close();
 console.log(fail === 0 ? "\nALL PASSED" : `\n${fail} FAILED`);
 process.exit(fail === 0 ? 0 : 1);

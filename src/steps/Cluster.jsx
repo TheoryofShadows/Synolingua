@@ -18,7 +18,7 @@ export default function Cluster({ lesson, lang, dir, onNext }) {
   const knownText = flipped ? lesson.target : lesson.known.join(" / ");
   const targetText = flipped ? lesson.known.join(" / ") : lesson.target;
   const audioText = flipped ? lesson.known.join(", ") : lesson.target.split(" / ")[0];
-  const audioLang = to.ttsLocale;
+  const audioLang = to.ttsLocales;
 
   return (
     <Fade id={lesson.id + "c"}>
@@ -40,7 +40,7 @@ export default function Cluster({ lesson, lang, dir, onNext }) {
         {lesson.note && <p style={{ fontSize: 13, color: "#7a8a9a", textAlign: "center", lineHeight: 1.6, fontStyle: "italic" }}>💡 {lesson.note}</p>}
         <div style={{ marginTop: 14, marginBottom: 16 }}>
           {lesson.clusters.map((c, i) => (
-            <button key={i} aria-label={`Listen to ${flipped ? c.known : c.target}`} onClick={() => speak(flipped ? c.known : c.target, to.ttsLocale)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap", width: "100%", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
+            <button key={i} aria-label={`Listen to ${flipped ? c.known : c.target}`} onClick={() => speak(flipped ? c.known : c.target, to.ttsLocales)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(168,216,234,0.03)", borderRadius: 10, marginBottom: 5, border: "1px solid rgba(168,216,234,0.05)", flexWrap: "wrap", width: "100%", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
               <span style={{ fontSize: 13, color: "#7a8a9a", minWidth: 85 }}>{flipped ? c.target : c.known}</span>
               <span style={{ color: "#3a4a5a", fontSize: 11 }}>→</span>
               <span style={{ fontSize: 15, fontWeight: 600, color: "#e8f0f8", flex: 1 }}>{flipped ? c.known : c.target}</span>

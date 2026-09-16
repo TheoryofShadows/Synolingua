@@ -14,7 +14,7 @@ export default function Placement({ lesson, lang, dir, onNext }) {
   const targetWords = flipped ? pl.known : pl.target;
   const refLabel = from.name;
   const targetLabel = `${to.name} — tap to arrange`;
-  const targetLang = to.ttsLocale;
+  const targetLang = to.ttsLocales;
 
   const [placed, setPlaced] = useState(Array(targetWords.length).fill(null));
   const [bank, setBank] = useState(() => shuffle([...targetWords]));

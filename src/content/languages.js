@@ -6,16 +6,24 @@ export const KNOWN_LANGUAGE = {
   flag: "🇺🇸",
   name: "English",
   native: "English",
-  ttsLocale: "en-US",
+  ttsLocales: ["en-US", "en"],
 };
 
 // Romance-first: the etymology method transfers directly and shared Latin roots
 // let explanation content cross-validate between courses.
+//
+// `dialect` is the pedagogical standard — it decides vocabulary and the written
+// pronunciation guides, and Phase 2's generator inherits it rather than deciding
+// per lesson. `ttsLocales` is a separate, ordered voice preference: the tags are
+// listed by how likely a real device is to have that voice installed, not by how
+// precisely they name the dialect. `es-419` is valid BCP-47 but is rarely exposed
+// as a browser voice, so the widely-installed regional tags come first and it
+// sits behind them. speak() falls back to the bare language prefix regardless.
 export const LANGUAGES = [
-  { id: "es", flag: "🇪🇸", name: "Spanish",    native: "Español",    ttsLocale: "es-ES", available: true  },
-  { id: "fr", flag: "🇫🇷", name: "French",     native: "Français",   ttsLocale: "fr-FR", available: false },
-  { id: "it", flag: "🇮🇹", name: "Italian",    native: "Italiano",   ttsLocale: "it-IT", available: false },
-  { id: "pt", flag: "🇵🇹", name: "Portuguese", native: "Português",  ttsLocale: "pt-PT", available: false },
+  { id: "es", flag: "🇪🇸", name: "Spanish",    native: "Español",   dialect: "Latin American",      ttsLocales: ["es-MX", "es-US", "es-419", "es"], available: true  },
+  { id: "fr", flag: "🇫🇷", name: "French",     native: "Français",  dialect: "Metropolitan French", ttsLocales: ["fr-FR", "fr"],                   available: false },
+  { id: "it", flag: "🇮🇹", name: "Italian",    native: "Italiano",  dialect: "Standard Italian",    ttsLocales: ["it-IT", "it"],                   available: false },
+  { id: "pt", flag: "🇧🇷", name: "Portuguese", native: "Português", dialect: "Brazilian",           ttsLocales: ["pt-BR", "pt"],                   available: false },
 ];
 
 export function getLanguage(id) {

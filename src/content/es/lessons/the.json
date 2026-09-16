@@ -54,9 +54,9 @@
   },
   "because": {
     "title": "Why two words for \"the\"?",
-    "explain": "Thousands of years ago, Latin sorted ALL nouns into two bins — like color-coded teams. They called them \"masculine\" and \"feminine\" but it has nothing to do with boy/girl. Think electrical plugs: Type A and Type B. The name is just a label.",
-    "key": "Cheat code: words ending in -o go in the \"el\" bin. Words ending in -a go in the \"la\" bin.",
-    "fun": "German has THREE bins. English used to have them too but dropped them 800 years ago!",
+    "explain": "Latin sorted every noun into THREE bins — masculine, feminine and neuter. The names are just labels; it has nothing to do with boy/girl. Think electrical plugs: Type A, Type B, Type C. Spanish lost the third bin. Most neuter words slid into the \"el\" pile — which is why \"nombre\" and \"vino\", both neuter in Latin, are \"el\" words today.",
+    "key": "Cheat code: a word ending in -o goes in the \"el\" bin, a word ending in -a goes in the \"la\" bin. That covers most words you'll meet. Words ending in anything else — \"café\", for one — the rule simply doesn't decide; you pick those up as you go.",
+    "fun": "English had all three bins too, and lost them between roughly 1000 and 1400. Vikings are part of the story: Norse and English speakers muddling through each other's word endings helped wear them away.",
     "src": "The real term is \"grammatical gender.\" Linguists call it \"noun class.\""
   },
   "practice": [
